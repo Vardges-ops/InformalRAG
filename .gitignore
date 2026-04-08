@@ -1,0 +1,41 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# --- Virtual environments ---
+venv/
+.venv/
+env/
+
+# --- Environment variables ---
+.env
+.env.*
+
+# --- Config files ---
+config.cfg
+
+# --- Data / ML artifacts ---
+data/
+*.parquet
+*.pickle
+*.pkl
+*.bin
+
+# --- Logs ---
+*.log
+
+# --- PyCharm ---
+.idea/
+*.iml
+
+# --- OS files ---
+Thumbs.db
+
+# --- Jupyter ---
+.ipynb_checkpoints/
+
+# --- Misc ---
+*.tmp
+*.swp
