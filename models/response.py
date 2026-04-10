@@ -1,13 +1,8 @@
 from pydantic import BaseModel
-from typing import List, Optional
-
-class Result(BaseModel):
-    text: str
-    title: Optional[str]
-    score: float
+from typing import Optional
 
 
 class SearchResponse(BaseModel):
     query: str
-    results: List[Result]
+    answer: str
     warning: Optional[str] = None

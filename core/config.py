@@ -12,3 +12,6 @@ RERANKER_PATH = config["MODELS"]["reranker_path"]
 
 CACHE_SIZE = int(config["CACHE"]["cache_max_size"])
 CACHE_EXPIRATION_SECONDS = int(config["CACHE"]["cache_expiration_seconds"])
+
+LLM_URL = config["LLM"]["url"]
+LLM_MODEL_NAME = config["LLM"]["model_name"]
