@@ -1,8 +1,10 @@
-from models.response import SearchResponse, Result
+from core.llm.tools import generate_response, build_context, build_prompt
+from models.response import SearchResponse
 from services.search import search
-from services.quadrail import guardrail_decision
+from services.guardrail.quadrail import guardrail_decision
 
-def run(query: str) -> SearchResponse:
+
+def run(query: str):
     decision = guardrail_decision(query)
 
     if decision["status"] == "blocked":
@@ -10,8 +12,13 @@ def run(query: str) -> SearchResponse:
 
     results = search(query)
 
+    context = build_context(results)
+
+    prompt = build_prompt(query, context)
+
+    answer = generate_response(prompt)
     return SearchResponse(
         query=query,
-        results=[Result(**r) for r in results],
+        answer=answer,
         warning=decision.get("warning")
     )

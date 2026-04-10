@@ -45,7 +45,7 @@ def search(query: str) -> List[Dict]:
         reverse=True
     )
 
-    top_results = ranked[:3]
+    top_results = ranked[:2]
 
     serialized = [
         {
