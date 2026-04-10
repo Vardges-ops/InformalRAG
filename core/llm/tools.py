@@ -22,10 +22,11 @@ def build_context(results):
 
 def build_prompt(query: str, context: str) -> str:
     return f"""
-    You are a helpful assistant.
+    You are an assistant that answers questions based on the provided context.
+
+    Use provided context to answer the question, if you can't find the answer then use your own knowledge to answer.
     
-    Answer the question using ONLY the provided context.
-    If the answer is not in the context, say: "I don't know based on the given information."
+    Only say "I don't know" if the answer is completely missing.
     
     Context:
     {context}
