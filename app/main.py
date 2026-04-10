@@ -4,4 +4,4 @@ if __name__ == "__main__":
     while True:
         query = input(">> ")
         result = run(query)
-        print(result)
+        print(result.answer)

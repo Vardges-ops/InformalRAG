@@ -1,7 +1,7 @@
 from core.llm.tools import generate_response, build_context, build_prompt
 from models.response import SearchResponse
 from services.search import search
-from services.quadrail import guardrail_decision
+from services.guardrail.quadrail import guardrail_decision
 
 
 def run(query: str):

@@ -1,5 +1,5 @@
 from typing import Dict
-from core.policy import classify_query, Category
+from services.guardrail.policy import classify_query, Category
 
 def guardrail_decision(query: str) -> Dict:
     category = classify_query(query)
