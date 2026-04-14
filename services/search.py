@@ -66,8 +66,4 @@ if __name__ == "__main__":
     query = "who is programmer?"
 
     results = search(query)
-
-    for r in results:
-        print("-" * 40)
-        print(r["score"])
-        print(r["text"])
+    print([i.get('text') for i in results])
