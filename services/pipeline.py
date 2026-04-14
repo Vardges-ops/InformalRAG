@@ -1,4 +1,4 @@
-from core.llm.tools import generate_response, build_context, build_prompt
+from core.llm_module.tools import generate_response, build_context, build_prompt
 from models.response import SearchResponse
 from services.search import search
 from services.guardrail.quadrail import guardrail_decision

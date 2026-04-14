@@ -1,7 +1,7 @@
 import configparser
 from pathlib import Path
 
-config = configparser.ConfigParser()
+config = configparser.ConfigParser(interpolation=None)
 config.read(Path(__file__).parent.parent / "config.cfg")
 
 QDRANT_URL = config["QDRANT"]["url"]
@@ -20,3 +20,6 @@ LLM_TOP_PERCENTILE = float(config["LLM"].get("top_percentile", 0.9))
 LLM_TOP_K = int(config["LLM"].get("top_k", 45))
 LLM_REPETITION_PENALTY = float(config["LLM"].get("repetition_penalty", 1.1))
 LLM_NUM_PREDICTIONS = int(config["LLM"].get("num_predict", 200))
+
+LOG_LEVEL = config["LOGGING"].get("log_level", "INFO")
+LOG_FORMAT = config["LOGGING"]["log_format"]
