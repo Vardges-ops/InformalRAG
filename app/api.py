@@ -10,9 +10,9 @@ from core.session_module.session_service import (
     clear_session_context
 )
 
-import logging
+from core.logging_config import get_logger
 
-logger = logging.getLogger("backend")
+logger = get_logger("backend", "backend_logs.log")
 
 app = FastAPI(title="WikiRAG API")
 
@@ -43,8 +43,8 @@ def chat(req: ChatRequest):
         answer = result.answer
         warning = result.warning
 
-        append_user_message(session_id, "user", req.query)
-        append_assistant_message(session_id, "assistant", answer)
+        append_user_message(session_id, req.query)
+        append_assistant_message(session_id, answer)
 
         return ChatResponse(
             query=req.query,
