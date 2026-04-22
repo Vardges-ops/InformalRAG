@@ -5,13 +5,16 @@ import json
 
 r = redis.Redis(host="localhost", port=6379, decode_responses=True)
 
+
 def normalize(q: str):
     return q.strip().lower()
+
 
 def get_cache(query: str):
     key = normalize(query)
     data = r.get(key)
     return json.loads(data) if data else None
+
 
 def set_cache(query: str, value):
     key = normalize(query)

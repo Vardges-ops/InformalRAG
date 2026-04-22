@@ -3,6 +3,7 @@ from core.config import EMBEDDING_MODEL
 
 _model = None
 
+
 def get_model():
     global _model
     if _model is None:

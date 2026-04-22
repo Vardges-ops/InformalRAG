@@ -11,22 +11,17 @@ docs = []
 current_title = None
 current_text = []
 
+
 def is_title(text):
     text = text.strip()
-    return (
-        len(text) < 50 and
-        text[0].isupper() and
-        "." not in text
-    )
+    return len(text) < 50 and text[0].isupper() and "." not in text
+
 
 for row in df["text"]:
     if is_title(row):
         # save previous doc
         if current_title:
-            docs.append({
-                "title": current_title,
-                "content": " ".join(current_text)
-            })
+            docs.append({"title": current_title, "content": " ".join(current_text)})
         # start new doc
         current_title = row.strip()
         current_text = []
@@ -35,21 +30,20 @@ for row in df["text"]:
 
 
 if current_title:
-    docs.append({
-        "title": current_title,
-        "content": " ".join(current_text)
-    })
+    docs.append({"title": current_title, "content": " ".join(current_text)})
 
 docs_df = pd.DataFrame(docs)
-docs_df2 = docs_df[docs_df.content.str.strip() != '']
+docs_df2 = docs_df[docs_df.content.str.strip() != ""]
+
 
 def is_valid_title(t):
     t = t.strip()
     return not (
-        t.endswith(":") or         # section headers
-        len(t.split()) > 6 or      # too long → likely sentence
-        t.islower()                # not a proper title
+        t.endswith(":")  # section headers
+        or len(t.split()) > 6  # too long → likely sentence
+        or t.islower()  # not a proper title
     )
+
 
 docs_df2 = docs_df2[docs_df2["title"].apply(is_valid_title)]
 
@@ -62,7 +56,7 @@ def chunk_text(text, chunk_size=250, overlap=40):
     step = chunk_size - overlap
 
     for i in range(0, len(words), step):
-        chunk_words = words[i:i + chunk_size]
+        chunk_words = words[i : i + chunk_size]
         if chunk_words:
             chunks.append(" ".join(chunk_words))
 
@@ -78,12 +72,14 @@ for doc_id, row in df.iterrows():
     chunks = chunk_text(content, chunk_size=250, overlap=40)
 
     for chunk_id, chunk in enumerate(chunks):
-        rows.append({
-            "doc_id": doc_id,
-            "title": title,
-            "chunk_id": chunk_id,
-            "text": f"{title}. {chunk}"
-        })
+        rows.append(
+            {
+                "doc_id": doc_id,
+                "title": title,
+                "chunk_id": chunk_id,
+                "text": f"{title}. {chunk}",
+            }
+        )
 
 
 chunks_df = pd.DataFrame(rows)
@@ -92,10 +88,7 @@ model = SentenceTransformer("all-MiniLM-L6-v2")
 
 texts = chunks_df["text"].tolist()
 embeddings = model.encode(
-    texts,
-    batch_size=32,
-    normalize_embeddings=True,
-    show_progress_bar=True
+    texts, batch_size=32, normalize_embeddings=True, show_progress_bar=True
 )
 
 client = QdrantClient(url="http://localhost:6333")  # persists on disk
@@ -108,10 +101,7 @@ names = [c.name for c in collections]
 if collection_name not in names:
     client.create_collection(
         collection_name=collection_name,
-        vectors_config=VectorParams(
-            size=embeddings.shape[1],
-            distance=Distance.COSINE
-        )
+        vectors_config=VectorParams(size=embeddings.shape[1], distance=Distance.COSINE),
     )
 
 batch_size = 1000
@@ -120,18 +110,17 @@ for i in range(0, len(embeddings), batch_size):
     batch = []
 
     for j in range(i, min(i + batch_size, len(embeddings))):
-        batch.append(PointStruct(
-            id=j,
-            vector=embeddings[j].tolist(),
-            payload={
-                "doc_id": int(chunks_df.iloc[j]["doc_id"]),
-                "title": chunks_df.iloc[j]["title"],
-                "chunk_id": int(chunks_df.iloc[j]["chunk_id"]),
-                "text": chunks_df.iloc[j]["text"]
-            }
-        ))
+        batch.append(
+            PointStruct(
+                id=j,
+                vector=embeddings[j].tolist(),
+                payload={
+                    "doc_id": int(chunks_df.iloc[j]["doc_id"]),
+                    "title": chunks_df.iloc[j]["title"],
+                    "chunk_id": int(chunks_df.iloc[j]["chunk_id"]),
+                    "text": chunks_df.iloc[j]["text"],
+                },
+            )
+        )
 
-    client.upsert(
-        collection_name=collection_name,
-        points=batch
-    )
+    client.upsert(collection_name=collection_name, points=batch)

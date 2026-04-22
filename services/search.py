@@ -1,13 +1,7 @@
 from typing import List, Dict
 from dotenv import load_dotenv
 
-from core import (
-    get_client,
-    get_model,
-    get_reranker,
-    get_cache,
-    set_cache
-)
+from core import get_client, get_model, get_reranker, get_cache, set_cache
 
 load_dotenv()
 
@@ -27,23 +21,15 @@ def search(query: str) -> List[Dict]:
 
     q_emb = model.encode(
         f"Represent this question for retrieving relevant documents: {query}",
-        normalize_embeddings=True
+        normalize_embeddings=True,
     )
 
-    res = client.query_points(
-        collection_name="wiki_chunks",
-        query=q_emb,
-        limit=10
-    )
+    res = client.query_points(collection_name="wiki_chunks", query=q_emb, limit=10)
 
     pairs = [(query, r.payload["text"]) for r in res.points]
     scores = reranker.predict(pairs)
 
-    ranked = sorted(
-        zip(res.points, scores),
-        key=lambda x: x[1],
-        reverse=True
-    )
+    ranked = sorted(zip(res.points, scores), key=lambda x: x[1], reverse=True)
 
     top_results = ranked[:2]
 
@@ -59,11 +45,3 @@ def search(query: str) -> List[Dict]:
     set_cache(query, serialized)
 
     return serialized
-
-
-
-if __name__ == "__main__":
-    query = "who is programmer?"
-
-    results = search(query)
-    print([i.get('text') for i in results])
