@@ -4,7 +4,12 @@ from services.search import search
 from services.guardrail.quadrail import guardrail_decision
 
 
-def run(query: str):
+def run(query: str) -> SearchResponse | dict:
+    """Runs the search pipeline for the given query.
+    Args:
+        query (str): The user's search query.
+    Returns:
+        SearchResponse: An object containing the original query, the generated answer, and any warnings if applicable."""
     decision = guardrail_decision(query)
 
     if decision["status"] == "blocked":
