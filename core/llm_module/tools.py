@@ -4,6 +4,12 @@ from core.config import LLM_MODEL_NAME, LLM_URL
 
 
 def generate_response(prompt: str) -> str:
+    """Sends a prompt to the LLM API and returns the generated response.
+    Args:
+        prompt (str): The input prompt to send to the LLM.
+    Returns:
+        str: The generated response from the LLM.
+    """
     response = requests.post(
         LLM_URL, json={"model": LLM_MODEL_NAME, "prompt": prompt, "stream": False}
     )
