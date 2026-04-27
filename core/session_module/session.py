@@ -11,10 +11,7 @@ def get_history(session_id: str) -> List[dict]:
 
 
 def add_message(session_id: str, role: str, content: str):
-    _sessions[session_id].append({
-        "role": role,
-        "content": content
-    })
+    _sessions[session_id].append({"role": role, "content": content})
 
 
 def clear_session(session_id: str):

@@ -17,8 +17,4 @@ def run(query: str):
     prompt = build_prompt(query, context)
 
     answer = generate_response(prompt)
-    return SearchResponse(
-        query=query,
-        answer=answer,
-        warning=decision.get("warning")
-    )
+    return SearchResponse(query=query, answer=answer, warning=decision.get("warning"))

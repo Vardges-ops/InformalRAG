@@ -7,7 +7,7 @@ from core.session_module.session_service import (
     get_session_context,
     append_user_message,
     append_assistant_message,
-    clear_session_context
+    clear_session_context,
 )
 
 from core.logging_config import get_logger

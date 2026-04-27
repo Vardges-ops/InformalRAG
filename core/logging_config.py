@@ -9,7 +9,6 @@ LOG_DIR = BASE_DIR / "logs"
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 
-
 def get_console_handler():
     handler = logging.StreamHandler()
     handler.setFormatter(logging.Formatter(LOG_FORMAT))
@@ -20,10 +19,7 @@ def get_file_handler(filename: str):
     file_path = LOG_DIR / filename
 
     handler = RotatingFileHandler(
-        file_path,
-        maxBytes=5 * 1024 * 1024,
-        backupCount=3,
-        encoding="utf-8"
+        file_path, maxBytes=5 * 1024 * 1024, backupCount=3, encoding="utf-8"
     )
     handler.setFormatter(logging.Formatter(LOG_FORMAT))
     return handler

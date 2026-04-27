@@ -5,12 +5,7 @@ from core.config import LLM_MODEL_NAME, LLM_URL
 
 def generate_response(prompt: str) -> str:
     response = requests.post(
-        LLM_URL,
-        json={
-            "model": LLM_MODEL_NAME,
-            "prompt": prompt,
-            "stream": False
-        }
+        LLM_URL, json={"model": LLM_MODEL_NAME, "prompt": prompt, "stream": False}
     )
 
     return response.json()["response"]

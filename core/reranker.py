@@ -3,6 +3,7 @@ from core.config import RERANKER_PATH
 
 _reranker = None
 
+
 def get_reranker():
     global _reranker
     if _reranker is None:

@@ -3,6 +3,7 @@ from core.config import QDRANT_URL
 
 _client = None
 
+
 def get_client():
     global _client
     if _client is None:

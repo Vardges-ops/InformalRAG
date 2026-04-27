@@ -1,10 +1,12 @@
 import re
 from enum import Enum
 
+
 class Category(str, Enum):
     SAFE = "safe"
     SENSITIVE = "sensitive"
     FORBIDDEN = "forbidden"
+
 
 FORBIDDEN_PATTERNS = [
     r"\bhow to (hack|exploit|ddos|bypass)\b",
@@ -19,11 +21,14 @@ SENSITIVE_PATTERNS = [
     r"\bdiagnose\b",
 ]
 
+
 def normalize(q: str) -> str:
     return q.strip().lower()
 
+
 def match_any(patterns, text):
     return any(re.search(p, text) for p in patterns)
+
 
 def classify_query(query: str) -> Category:
     q = normalize(query)
