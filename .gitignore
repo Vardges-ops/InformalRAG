@@ -26,6 +26,9 @@ data/
 # --- Logs ---
 *.log
 
+# --- Audio files ---
+*.wav
+
 # --- PyCharm ---
 .idea/
 *.iml
